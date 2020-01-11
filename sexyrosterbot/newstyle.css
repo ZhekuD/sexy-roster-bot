@@ -341,3 +341,12 @@ div.battlescribe span.caps
 }
 
 br + p { display: none; }
+
+@keyframes open {
+  0% {opacity: 0; margin-bottom: -10px}
+  100% {opacity: 1; margin-bottom: 0px}
+}
+
+details[open] summary ~ * {
+  animation: open .2s ease-in-out;
+}
