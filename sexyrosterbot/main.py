@@ -13,7 +13,7 @@ config.read('config.ini')
 
 TOKEN = os.environ.get('TOKEN') or config['bot']['Token']
 PORT = os.environ.get('PORT', 80)
-BOT_URL = "https://boiling-spire-19861.herokuapp.com/bot"
+BOT_URL = "https://sexy-roster.herokuapp.com/"
 
 server = Flask(__name__)
 bot = telebot.TeleBot(TOKEN)
