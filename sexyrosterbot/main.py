@@ -5,7 +5,7 @@ from requests import get
 import telebot
 import os
 
-from roster_parser import roster_parser
+from .roster_parser import roster_parser
 
 
 config = ConfigParser()
@@ -33,22 +33,30 @@ def webhook():
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
-    bot.reply_to(
-        message,
+    bot.send_message(
+        message.chat.id,
         "Hello there! Send me your BattleScibe roster in HTML format \
         and I will make it pretty-looking and easy readable on your devices!"
     )
 
 @bot.message_handler(content_types=['document'])
 def send_document(message):
+    chat_id = message.chat.id
+    if not 'text/html' in message.document.mime_type:
+        bot.send_message(chat_id, "Your file isn't HTML...")
+        return
+
     file_info = bot.get_file(file_id=message.document.file_id)
     url = f'https://api.telegram.org/file/bot{TOKEN}/{file_info.file_path}'
     resp = get(url)
-
-    file = StringIO(roster_parser(resp.text))
-    file.name = 'edited_' + message.document.file_name
-    bot.send_document(message.chat.id, file)
-    file.close()
+    if resp.ok:
+        file = StringIO(roster_parser(resp.text))
+        file.name = 'edited_' + message.document.file_name
+        bot.send_message(chat_id, 'Here you go:')
+        bot.send_document(chat_id, file)
+        file.close()
+    else:
+        bot.send_message(chat_id, 'Something go wrong...')
 
 if os.environ.get('HEROKU'):
     server.run(host="0.0.0.0", port=PORT)

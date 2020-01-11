@@ -1,0 +1,2 @@
+import sexyrosterbot.main
+import sexyrosterbot.roster_parser
