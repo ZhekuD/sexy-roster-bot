@@ -5,7 +5,7 @@ from requests import get
 import telebot
 import os
 
-from .roster_parser import roster_parser
+from roster_parser import roster_parser
 
 
 config = ConfigParser()
@@ -57,8 +57,3 @@ def send_document(message):
         file.close()
     else:
         bot.send_message(chat_id, 'Something go wrong...')
-
-if os.environ.get('HEROKU'):
-    server.run(host="0.0.0.0", port=PORT)
-else:
-    bot.polling()
