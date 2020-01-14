@@ -343,7 +343,7 @@ div.battlescribe span.caps
 br + p { display: none; }
 
 @keyframes open {
-  0% {opacity: 0; margin-bottom: -10px}
+  0% {opacity: 0; margin-bottom: -8px}
   100% {opacity: 1; margin-bottom: 0px}
 }
 

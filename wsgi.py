@@ -1,4 +1,3 @@
-import sexyrosterbot
 from sexyrosterbot import server
 
 
