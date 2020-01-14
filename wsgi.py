@@ -1,4 +1,5 @@
-from main import server
+import sexyrosterbot
+from sexyrosterbot import server
 
 
 if __name__=='__main__':

@@ -5,7 +5,7 @@ from requests import get
 import telebot
 import os
 
-from roster_parser import roster_parser
+from .roster_parser import roster_parser
 
 
 config = ConfigParser()
