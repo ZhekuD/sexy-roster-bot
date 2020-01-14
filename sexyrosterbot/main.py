@@ -29,14 +29,14 @@ def getMessage():
 def webhook():
     bot.remove_webhook()
     bot.set_webhook(url=BOT_URL)
-    return "?", 200
+    return "set webhook", 200
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
     bot.send_message(
         message.chat.id,
-        "Hello there! Send me your BattleScibe roster in HTML format \
-        and I will make it pretty-looking and easy readable on your devices!"
+        "Hello there! Send me your BattleScibe roster in HTML format " +
+        "and I will make it pretty-looking and easy readable on your devices!"
     )
 
 @bot.message_handler(content_types=['document'])
