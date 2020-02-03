@@ -1,35 +1,11 @@
-from flask import Flask, request
-from configparser import ConfigParser
-from io import StringIO
-from requests import get
-import telebot
 import os
+from io import StringIO
 
+from requests import get
+
+from . import bot
 from .roster_parser import roster_parser
 
-
-config = ConfigParser()
-config.read('config.ini')
-
-TOKEN = os.environ.get('TOKEN') or config['bot']['Token']
-PORT = os.environ.get('PORT', 80)
-BOT_URL = "https://sexy-roster.herokuapp.com/bot"
-
-server = Flask(__name__)
-bot = telebot.TeleBot(TOKEN)
-
-@server.route("/bot", methods=['POST'])
-def getMessage():
-    bot.process_new_updates(
-        [telebot.types.Update.de_json(request.stream.read().decode("utf-8"))]
-    )
-    return "!", 200
-
-@server.route("/")
-def webhook():
-    bot.remove_webhook()
-    bot.set_webhook(url=BOT_URL)
-    return "set webhook", 200
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
