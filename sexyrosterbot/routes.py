@@ -3,7 +3,7 @@ from flask import request
 from requests import get
 
 from . import server, bot, BOT_URL
-from .models import User
+from .models import User, Roster
 
 
 @server.route('/')
@@ -20,6 +20,13 @@ def users():
         users_string += str(user.username) + '<br>'
     users_string += '</p>'
     return users_string
+
+
+@server.route('/roster/<username>')
+def roster(username):
+    u = User.query.filter_by(username=username).first_or_404()
+    r = u.rosters.first()
+    return r.roster
 
 
 @server.route("/bot", methods=['POST'])
