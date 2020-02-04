@@ -3,8 +3,9 @@ from io import StringIO
 
 from requests import get
 
-from . import bot, TOKEN
+from . import bot, db, TOKEN
 from .roster_parser import roster_parser
+from .models import User
 
 
 @bot.message_handler(commands=['start', 'help'])
@@ -14,6 +15,10 @@ def send_welcome(message):
         "Hello there! Send me your BattleScibe roster in HTML format " +
         "and I will make it pretty-looking and easy readable on your devices!"
     )
+    user = User(username=message.chat.username)
+    db.session.add(user)
+    db.session.commit()
+
 
 @bot.message_handler(content_types=['document'])
 def send_document(message):

@@ -3,6 +3,23 @@ from flask import request
 from requests import get
 
 from . import server, bot, BOT_URL
+from .models import User
+
+
+@server.route('/')
+@server.route('/index')
+def index():
+    return 'sexy roster mainpage'
+
+
+@sever.route('/users')
+def users():
+    users = User.query.all()
+    users_string = '<p>'
+    for user in users:
+        users_string += str(user.username) + '<br>'
+    users_string += '</p>'
+    return users_string
 
 
 @server.route("/bot", methods=['POST'])
@@ -12,7 +29,8 @@ def getMessage():
     )
     return "!", 200
 
-@server.route("/")
+
+@server.route("/set_webhook")
 def webhook():
     bot.remove_webhook()
     bot.set_webhook(url=BOT_URL)

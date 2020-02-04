@@ -24,4 +24,4 @@ migrate = Migrate(server, db)
 bot = TeleBot(TOKEN)
 
 
-from sexyrosterbot import routes, handlers
+from sexyrosterbot import routes, handlers, models
