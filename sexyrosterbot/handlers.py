@@ -3,7 +3,7 @@ from io import StringIO
 
 from requests import get
 
-from . import bot
+from . import bot, TOKEN
 from .roster_parser import roster_parser
 
 
