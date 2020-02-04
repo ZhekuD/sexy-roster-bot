@@ -4,8 +4,8 @@ from io import StringIO
 from requests import get
 
 from . import bot, db, TOKEN
-from .roster_parser import roster_parser
-from .models import User
+from .roster_parser import roster_body_parser, roster_style_parser
+from .models import User, Roster
 
 
 @bot.message_handler(commands=['start', 'help'])
@@ -15,9 +15,10 @@ def send_welcome(message):
         "Hello there! Send me your BattleScibe roster in HTML format " +
         "and I will make it pretty-looking and easy readable on your devices!"
     )
-    user = User(username=message.chat.username)
-    db.session.add(user)
-    db.session.commit()
+    if User.query.filter_by(username=message.chat.username).first() is None:
+        user = User(username=message.chat.username)
+        db.session.add(user)
+        db.session.commit()
 
 
 @bot.message_handler(content_types=['document'])
@@ -31,7 +32,16 @@ def send_document(message):
     url = f'https://api.telegram.org/file/bot{TOKEN}/{file_info.file_path}'
     resp = get(url)
     if resp.ok:
-        file = StringIO(roster_parser(resp.text))
+        new_html = roster_body_parser(resp.text)
+
+        roster = Roster(
+            roster=roster_style_parser(resp.text, add_style=False),
+            author=User.query.filter_by(username=message.chat.username).first()
+        )
+        db.session.add(roster)
+        db.session.commit()
+
+        file = StringIO(roster_style_parser(new_html))
         file.name = 'edited_' + message.document.file_name
         bot.send_message(chat_id, 'Here you go:')
         bot.send_document(chat_id, file)
