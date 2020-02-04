@@ -33,7 +33,6 @@ def roster(username):
     )
 
 
-
 @server.route("/bot", methods=['POST'])
 def getMessage():
     bot.process_new_updates(

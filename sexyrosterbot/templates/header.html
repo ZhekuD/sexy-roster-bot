@@ -1,8 +1,8 @@
 <div class="header">
-  <ul >
-    <li><a href="#"></a>Home</li>
-    <li><a href="#"></a>Rosters</li>
-    <li><a href="#"></a>About</li>
+  <ul>
+    <li><a href="{{ url_for('index') }}">Home</a></li>
+    <li><a href="{{ url_for('roster', username='zhekud') }}">Roster</a></li>
+    <li><a href="/users">Users</a></li>
   </ul>
   <hr>
 </div>

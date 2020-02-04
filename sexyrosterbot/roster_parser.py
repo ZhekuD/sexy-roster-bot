@@ -12,7 +12,7 @@ def roster_style_parser(input_html, add_style=True):
     if add_style:
         soup.style.string = NEW_CSS
     else:
-        soup.style.string = ''
+        soup = soup.find_all("div", class_="battlescribe")[0]
     return str(soup)
 
 def roster_body_parser(input_html):
