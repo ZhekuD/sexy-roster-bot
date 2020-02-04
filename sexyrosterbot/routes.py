@@ -1,5 +1,5 @@
 import telebot
-from flask import request
+from flask import request, render_template, url_for
 from requests import get
 
 from . import server, bot, BOT_URL
@@ -9,7 +9,7 @@ from .models import User, Roster
 @server.route('/')
 @server.route('/index')
 def index():
-    return 'sexy roster mainpage'
+    return render_template('index.html', title='Home')
 
 
 @server.route('/users')
@@ -24,9 +24,14 @@ def users():
 
 @server.route('/roster/<username>')
 def roster(username):
-    u = User.query.filter_by(username=username).first_or_404()
-    r = u.rosters.first()
-    return r.roster
+    user = User.query.filter_by(username=username).first_or_404()
+    roster = user.rosters.first()
+    return render_template(
+        'roster.html',
+        title='Your roster',
+        input_roster=roster
+    )
+
 
 
 @server.route("/bot", methods=['POST'])

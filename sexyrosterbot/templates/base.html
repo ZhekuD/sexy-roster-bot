@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+    <title>
+      {% if title %}
+        {{ title }} - SRB
+      {% else %}
+        Sexy Roster Bot
+      {% endif %}
+    </title>
+  </head>
+
+  <body>
+    {% include "header.html" %}
+    <div>
+      {% block content %}Empty{% endblock %}
+    </div>
+  </body>
+
+</html>
