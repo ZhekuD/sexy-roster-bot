@@ -12,7 +12,7 @@ def index():
     return 'sexy roster mainpage'
 
 
-@sever.route('/users')
+@server.route('/users')
 def users():
     users = User.query.all()
     users_string = '<p>'
