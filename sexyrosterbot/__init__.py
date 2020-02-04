@@ -10,13 +10,14 @@ from flask_migrate import Migrate
 config = ConfigParser()
 config.read('config.ini')
 
-server = Flask(__name__)
-
 TOKEN = os.environ.get('TOKEN') or config['bot']['Token']
 PORT = os.environ.get('PORT', 80)
 BOT_URL = "https://sexy-roster.herokuapp.com/bot"
-SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
-SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+
+server = Flask(__name__)
+server.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+server.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(server)
 migrate = Migrate(server, db)
