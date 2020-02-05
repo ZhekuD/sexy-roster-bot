@@ -131,3 +131,5 @@ dmypy.json
 
 config.ini
 venv/
+test.db
+bot_polling.py

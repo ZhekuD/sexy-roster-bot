@@ -1,5 +1,6 @@
 import os
 from io import StringIO
+from datetime import datetime
 
 from requests import get
 
@@ -15,8 +16,14 @@ def send_welcome(message):
         "Hello there! Send me your BattleScibe roster in HTML format " +
         "and I will make it pretty-looking and easy readable on your devices!"
     )
-    if User.query.filter_by(username=message.chat.username).first() is None:
-        user = User(username=message.chat.username)
+
+    if User.query.filter_by(user_telegram_id=message.chat.id).first() is None:
+        user = User(
+            user_telegram_id=message.chat.id,
+            first_name=message.chat.first_name,
+            second_name=message.chat.last_name,
+            username=message.chat.username
+        )
         db.session.add(user)
         db.session.commit()
 
@@ -35,8 +42,10 @@ def send_document(message):
         new_html = roster_body_parser(resp.text)
 
         roster = Roster(
-            roster=roster_style_parser(resp.text, add_style=False),
-            author=User.query.filter_by(username=message.chat.username).first()
+            body=roster_style_parser(new_html, add_style=False),
+            title=message.document.file_name[:-5],
+            create_time=datetime.utcnow(),
+            author=User.query.filter_by(user_telegram_id=message.chat.id).first()
         )
         db.session.add(roster)
         db.session.commit()

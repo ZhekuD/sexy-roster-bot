@@ -17,14 +17,14 @@ def users():
     users = User.query.all()
     users_string = '<p>'
     for user in users:
-        users_string += str(user.username) + '<br>'
+        users_string += str(user.username) + '-' + str(user.user_telegram_id) + '<br>'
     users_string += '</p>'
     return users_string
 
 
-@server.route('/roster/<username>')
-def roster(username):
-    user = User.query.filter_by(username=username).first_or_404()
+@server.route('/roster/<user_id>')
+def roster(user_id):
+    user = User.query.filter_by(user_telegram_id=user_id).first_or_404()
     roster = user.rosters.first()
     return render_template(
         'roster.html',
