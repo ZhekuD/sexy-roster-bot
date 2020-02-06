@@ -1,9 +1,10 @@
 from bs4 import BeautifulSoup
 from os.path import curdir, abspath, join
 
+from . import BASEDIR
 
-CUR_DIR = abspath(curdir)
-with open(join(CUR_DIR, 'newstyle.css'), 'r') as style_file:
+
+with open(join(BASEDIR, 'static/css/new_roster_style.css'), 'r') as style_file:
     NEW_CSS = style_file.read()
 
 
