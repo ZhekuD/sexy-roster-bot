@@ -4,7 +4,7 @@ from datetime import datetime
 
 from requests import get
 
-from . import bot, db, TOKEN
+from . import bot, db, TOKEN, BOT_URL
 from .roster_parser import roster_body_parser, roster_style_parser
 from .models import User, Roster
 
@@ -26,6 +26,11 @@ def send_welcome(message):
         )
         db.session.add(user)
         db.session.commit()
+
+
+@bot.message_handler(commands=['/profile'])
+def send_profile_url(message):
+    bot.send_message(message.chat.id, BOT_URL + str(message.chat.id))
 
 
 @bot.message_handler(content_types=['document'])
@@ -53,6 +58,10 @@ def send_document(message):
         file = StringIO(roster_style_parser(new_html))
         file.name = 'edited_' + message.document.file_name
         bot.send_message(chat_id, 'Here you go:')
+        bot.send_message(
+            message.chat.id,
+            BOT_URL + f"rosters/{message.chat.id}/{roster.id}"
+        )
         bot.send_document(chat_id, file)
         file.close()
     else:

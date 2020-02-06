@@ -13,7 +13,7 @@ config.read('config.ini')
 TOKEN = os.environ.get('TOKEN') or config['bot']['Token']
 PORT = os.environ.get('PORT', 80)
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
-BOT_URL = "https://sexy-roster.herokuapp.com/bot"
+BOT_URL = "https://sexy-roster.herokuapp.com/"
 
 
 server = Flask(__name__)
